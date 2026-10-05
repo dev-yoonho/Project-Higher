@@ -14,7 +14,7 @@ class QuickstartLabEnvCfg(DirectRLEnvCfg):
     episode_length_s = 5.0
 
     action_space = 2       # 좌우 바퀴 목표 각속도(rad/s)
-    observation_space = 9 # 세계 선속도3 + 각속도3 + 목표 방향3
+    observation_space = 3 # 방향 일치도 + 목표의 좌우 성분 + 전진 속도
     state_space = 0
 
     sim: SimulationCfg = SimulationCfg(

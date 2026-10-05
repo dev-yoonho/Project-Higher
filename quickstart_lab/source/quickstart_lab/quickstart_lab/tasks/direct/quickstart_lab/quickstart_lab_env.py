@@ -89,9 +89,19 @@ class QuickstartLabEnv(DirectRLEnv):
     def _get_observations(self):
         self._visualize_markers()
 
-        # 세계 기준 선속도(m/s)·각속도(rad/s) 6개와 목표 방향 3개.
-        velocity = self.robot.data.root_com_vel_w
-        obs = torch.cat((velocity, self.commands), dim=-1)
+        forward_w = quat_apply(
+            self.robot.data.root_link_quat_w,
+            self.robot.data.FORWARD_VEC_B,
+        )
+
+        # 같은 방향=1, 직각=0, 정반대=-1.
+        alignment = torch.sum(forward_w * self.commands, dim=-1)
+
+        # 평지에서 목표가 몸체 왼쪽이면 양수, 오른쪽이면 음수.
+        side = torch.cross(forward_w, self.commands, dim=-1)[:, 2]
+        forward_speed = self.robot.data.root_com_lin_vel_b[:, 0]
+
+        obs = torch.stack((alignment, side, forward_speed), dim=-1)
         return {"policy": obs}
 
     def _get_rewards(self):
