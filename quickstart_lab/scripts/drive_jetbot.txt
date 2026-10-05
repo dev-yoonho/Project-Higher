@@ -1,0 +1,67 @@
+import argparse
+import time
+
+from isaaclab.app import AppLauncher
+
+parser = argparse.ArgumentParser()
+AppLauncher.add_app_launcher_args(parser)
+args = parser.parse_args()
+
+app_launcher = AppLauncher(args)
+simulation_app = app_launcher.app
+
+import gymnasium as gym
+import torch
+
+import quickstart_lab.tasks
+from isaaclab_tasks.utils import parse_env_cfg
+
+
+def main():
+    task = "Template-Quickstart-Lab-Direct-v0"
+    cfg = parse_env_cfg(task, device=args.device, num_envs=1)
+    cfg.viewer.eye = (2.5, 2.5, 1.8)
+    cfg.viewer.lookat = (0.0, 0.0, 0.2)
+
+    env = gym.make(task, cfg=cfg)
+    try:
+        env.reset()
+        robot_env = env.unwrapped
+        dt = robot_env.step_dt
+
+        # 좌우 바퀴에 각각 5 rad/s를 명령한다.
+        actions = torch.tensor(
+            [[5.0, 5.0]], device=robot_env.device
+        )
+
+        with torch.inference_mode():
+            for step in range(600):
+                if not simulation_app.is_running():
+                    break
+
+                start = time.perf_counter()
+                _, _, terminated, truncated, _ = env.step(actions)
+
+                if (step + 1) % 60 == 0:
+                    wheel_vel = robot_env.robot.data.joint_vel[
+                        0, robot_env.wheel_ids
+                    ].tolist()
+                    print(
+                        f"[DRIVE] time={(step + 1) * dt:.2f}s "
+                        f"wheel_vel={wheel_vel}"
+                    )
+
+                if (terminated | truncated).any().item():
+                    print("[RESET] Episode ended; returned to start.")
+
+                # 화면에서 움직임을 관찰할 시간을 확보한다.
+                time.sleep(max(0.0, dt - (time.perf_counter() - start)))
+    finally:
+        env.close()
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    finally:
+        simulation_app.close()

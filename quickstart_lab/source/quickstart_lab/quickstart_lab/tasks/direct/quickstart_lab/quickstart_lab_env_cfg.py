@@ -1,48 +1,45 @@
-# Copyright (c) 2022-2025, The Isaac Lab Project Developers (https://github.com/isaac-sim/IsaacLab/blob/main/CONTRIBUTORS.md).
-# All rights reserved.
-#
-# SPDX-License-Identifier: BSD-3-Clause
-
-from isaaclab_assets.robots.cartpole import CARTPOLE_CFG
-
+import isaaclab.sim as sim_utils
+from isaaclab.actuators import ImplicitActuatorCfg
 from isaaclab.assets import ArticulationCfg
 from isaaclab.envs import DirectRLEnvCfg
 from isaaclab.scene import InteractiveSceneCfg
 from isaaclab.sim import SimulationCfg
 from isaaclab.utils import configclass
+from isaaclab.utils.assets import ISAAC_NUCLEUS_DIR
 
 
 @configclass
 class QuickstartLabEnvCfg(DirectRLEnvCfg):
-    # env
     decimation = 2
     episode_length_s = 5.0
-    # - spaces definition
-    action_space = 1
-    observation_space = 4
+
+    action_space = 2       # 좌우 바퀴 목표 각속도, rad/s
+    observation_space = 3 # 몸체 기준 선속도 x·y·z, m/s
     state_space = 0
 
-    # simulation
-    sim: SimulationCfg = SimulationCfg(dt=1 / 120, render_interval=decimation)
+    sim: SimulationCfg = SimulationCfg(
+        dt=1 / 120,
+        render_interval=decimation,
+    )
 
-    # robot(s)
-    robot_cfg: ArticulationCfg = CARTPOLE_CFG.replace(prim_path="/World/envs/env_.*/Robot")
+    robot_cfg: ArticulationCfg = ArticulationCfg(
+        prim_path="/World/envs/env_.*/Robot",
+        spawn=sim_utils.UsdFileCfg(
+            usd_path=f"{ISAAC_NUCLEUS_DIR}/Robots/NVIDIA/Jetbot/jetbot.usd",
+        ),
+        actuators={
+            "wheels": ImplicitActuatorCfg(
+                joint_names_expr=["left_wheel_joint", "right_wheel_joint"],
+                stiffness=None,
+                damping=None,  # 모델에 저장된 구동 설정 사용
+            ),
+        },
+    )
 
-    # scene
-    scene: InteractiveSceneCfg = InteractiveSceneCfg(num_envs=4096, env_spacing=4.0, replicate_physics=True)
+    scene: InteractiveSceneCfg = InteractiveSceneCfg(
+        num_envs=4,
+        env_spacing=4.0,
+        replicate_physics=True,
+    )
 
-    # custom parameters/scales
-    # - controllable joint
-    cart_dof_name = "slider_to_cart"
-    pole_dof_name = "cart_to_pole"
-    # - action scale
-    action_scale = 100.0  # [N]
-    # - reward scales
-    rew_scale_alive = 1.0
-    rew_scale_terminated = -2.0
-    rew_scale_pole_pos = -1.0
-    rew_scale_cart_vel = -0.01
-    rew_scale_pole_vel = -0.005
-    # - reset states/conditions
-    initial_pole_angle_range = [-0.25, 0.25]  # pole angle sample range on reset [rad]
-    max_cart_pos = 3.0  # reset if cart exceeds this position [m]
+    wheel_names = ["left_wheel_joint", "right_wheel_joint"]
