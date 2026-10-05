@@ -246,7 +246,7 @@ isaaclab.bat -p C:\makerobot\scripts\02_joint_practice.py
 
 2026-10-06 현재 작업을 `C:\makerobot`의 단일 Git 저장소(`main`)로 정리했다. `quickstart_lab`의 자동 생성 Git에는 커밋이 없었으며, 기존 인덱스를 포함한 메타데이터는 `.local-backups/quickstart_lab.git-before-root-repo`에 보존했다. 커밋은 현재 문서·설치/기초 실습·Cartpole 템플릿·Ant 평가/시간 실습·Jetbot 속력·방향 표시·방향 학습v1·관측 개선v2로 나눈다. 이전 단계 코드는 실제 남아 있던 템플릿 인덱스와 백업 파일을 이용해 구성했으며, 커밋 일시는 정리한 시점이다.
 
-이 저장소는 프로젝트 문서·실습 코드·설정·단계별 코드 백업을 관리한다. Isaac Lab 원본은 별도 설치한 상위 프로젝트이므로 `/IsaacLab/`를 제외하고 정확한 원본 버전을 `setup/isaaclab-source.txt`에 기록했다. IsaacLab 폴더 안에서 작성했던 PyTorch 확인 실습은 원본을 유지하며 `scripts/quickstart_torch_check.py`에도 복사했다. 로그·캐시·정책 체크포인트·로컬 Git 백업은 디스크에 그대로 보관하며 이 Git 저장소에는 포함하지 않는다. 따라서 저장소 복제만으로 학습된 `.pt` 파일까지 복원되지는 않는다. 원격 origin은 https://github.com/dev-yoonho/Project-Higher.git 이며 기존 main의 Initial commit(abd8142)을 보존해 그 다음부터 커밋을 이어 붙인다. 원격 연결과 커밋 정리를 수행하며 업로드 여부는 작업 결과에서 별도로 확인한다.
+이 저장소는 프로젝트 문서·실습 코드·설정·단계별 코드 백업을 관리한다. Isaac Lab 원본은 별도 설치한 상위 프로젝트이므로 `/IsaacLab/`를 제외하고 정확한 원본 버전을 `setup/isaaclab-source.txt`에 기록했다. IsaacLab 폴더 안에서 작성했던 PyTorch 확인 실습은 원본을 유지하며 `scripts/quickstart_torch_check.py`에도 복사했다. 로그·캐시·정책 체크포인트·로컬 Git 백업은 디스크에 그대로 보관하며 이 Git 저장소에는 포함하지 않는다. 따라서 저장소 복제만으로 학습된 `.pt` 파일까지 복원되지는 않는다. 원격 origin은 https://github.com/dev-yoonho/Project-Higher.git 이며 기존 main의 Initial commit(abd8142)을 보존했다. 2026-10-06 단계별 커밋 8개(856d718~f2529f7)를 main에 푸시하고 원격·로컬 커밋 일치를 확인했다. 이후 이 저장소 기록을 별도 문서 커밋으로 남긴다. 작성자는 dev-yoonho이며 Git 작성자 설정은 이 저장소에만 적용했다.
 
 **재개 위치:** Jetbot 방향 학습v2의 코드 준비와 문법 검사는 완료했지만, 사용자는 최신 설명 학습·복습 답변·v2 정책 학습을 아직 진행하지 않았다고 확인했다. [복습 노트 11장](C:/makerobot/STUDY_NOTES.md)의 v2 관측 개선을 읽고, `jetbot_direction_v2` 학습을 실행한 뒤 결과를 확인한다. v1은 학습·재생까지 확인됐다. 이번 Git 정리 중 시뮬레이션이나 학습을 실행하지 않았다.
 ## 기록을 유지하는 방법
