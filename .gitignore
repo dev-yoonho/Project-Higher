@@ -1,0 +1,48 @@
+# Upstream simulator/framework checkout is installed separately.
+/IsaacLab/
+
+# Local repository metadata backups and editor settings.
+/.local-backups/
+/.vscode/
+
+# Python environments, build output and caches.
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+build/
+dist/
+
+# Training output and downloaded/generated assets stay on this machine.
+logs/
+runs/
+outputs/
+videos/
+recordings/
+wandb/
+*.log
+*.log.*
+*.pt
+*.pth
+*.onnx
+*.usd
+*.usda
+*.usdc
+*.usdz
+*.mp4
+*.dmp
+
+# Machine-specific credentials and temporary files.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+*.p12
+*.tmp
+.DS_Store
+Thumbs.db
