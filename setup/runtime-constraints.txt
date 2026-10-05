@@ -1,0 +1,16 @@
+# Preserve the Isaac Sim 5.1 / PyTorch cu128 baseline during repair.
+torch==2.7.0+cu128
+torchvision==0.22.0+cu128
+torchaudio==2.7.0+cu128
+numpy==1.26.0
+packaging==23.0
+typing_extensions==4.12.2
+psutil==5.9.8
+wheel==0.45.1
+# Keep RSL-RL imports compatible with Isaac Sim on this Windows environment.
+tensordict==0.9.0
+# IPython 9.17 requires psutil>=7, but Isaac Sim pins psutil==5.9.8.
+ipython==8.37.0
+# h5py 3.16.0 failed in the GUI. 3.13.0 bundles HDF5 1.14.6,
+# matching the HDF5 runtime loaded by Isaac Sim GUI extensions.
+h5py==3.13.0

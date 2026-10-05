@@ -1,0 +1,9 @@
+repository=https://github.com/isaac-sim/IsaacLab.git
+tag=v2.3.2
+commit=37ddf626871758333d6ed89cf64ad702aef127d0
+local_checkout=C:/makerobot/IsaacLab
+
+The upstream checkout is intentionally excluded from the makerobot repository.
+Installation and compatibility details: ../INSTALLATION.md
+Python dependency snapshots were captured during the 2026-10-04 repair;
+they are not a lockfile for every package installed since then.
